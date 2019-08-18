@@ -13,10 +13,26 @@ public class Cell {
     revealed = false;
   }
 
+  public void flag() {
+    if (revealed)
+      System.out.println("You can not flag a revealed cell");
+    else
+      flagged = !flagged;
+  }
+
+  public void reveal() {
+    if (flagged)
+      System.out.println("You can not reveal a flagged cell");
+    else
+      revealed = true;
+  }
+
   // The toString method is used to display the cell on the console
   public String toString() {
     if (revealed)
       return ("" + borderingMines);
+    if (flagged)
+      return "F";
     return "#";
   }
 
