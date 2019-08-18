@@ -19,8 +19,8 @@ public class Cell {
   }
 
   // Method to change a cell into a mine
-  public setMine(boolean mineStatus) {
-    isMine = mineStatus;
+  public setMine() {
+    isMine = true;
   }
 
   public void flag() {
