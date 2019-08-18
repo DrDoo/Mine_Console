@@ -1,13 +1,15 @@
 public class Cell {
 
   // Variables the hold the state of the Cell
+  private boolean isMine;
   private int borderingMines;
   private boolean revealed;
   private boolean flagged;
 
   // Constructor only needs the number of mines that border this cell. Each cell
   // is initialised as not being revealed or flagged
-  public Cell(int borderMines) {
+  public Cell(int borderMines, boolean mineStatus) {
+    isMine = mineStatus;
     borderingMines = borderMines;
     flagged = false;
     revealed = false;
@@ -29,10 +31,12 @@ public class Cell {
 
   // The toString method is used to display the cell on the console
   public String toString() {
-    if (revealed)
+    if (revealed && !isMine)
       return ("" + borderingMines);
     if (flagged)
       return "F";
+    if (isMine)
+      return "*";
     return "#";
   }
 
