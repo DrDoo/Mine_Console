@@ -6,13 +6,21 @@ public class Cell {
   private boolean revealed;
   private boolean flagged;
 
-  // Constructor only needs the number of mines that border this cell. Each cell
-  // is initialised as not being revealed or flagged
-  public Cell(int borderMines, boolean mineStatus) {
-    isMine = mineStatus;
-    borderingMines = borderMines;
+  // Each cell is initialised as not being revealed or flagged and is not a mine
+  public Cell() {
+    isMine = false;
     flagged = false;
     revealed = false;
+  }
+
+  // Method to set the number of bordering mines the cell has
+  public setBorderMines(int numberOfBorderMines) {
+    borderingMines = numberOfBorderMines;
+  }
+
+  // Method to change a cell into a mine
+  public setMine(boolean mineStatus) {
+    isMine = mineStatus;
   }
 
   public void flag() {
