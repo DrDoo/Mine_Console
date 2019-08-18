@@ -33,10 +33,10 @@ public class Cell {
   public String toString() {
     if (revealed && !isMine)
       return ("" + borderingMines);
+      if (revealed && isMine)
+        return "*";
     if (flagged)
       return "F";
-    if (isMine)
-      return "*";
     return "#";
   }
 
