@@ -14,12 +14,12 @@ public class Cell {
   }
 
   // Method to set the number of bordering mines the cell has
-  public setBorderMines(int numberOfBorderMines) {
+  public void setBorderMines(int numberOfBorderMines) {
     borderingMines = numberOfBorderMines;
   }
 
   // Method to change a cell into a mine
-  public setMine() {
+  public void setMine() {
     isMine = true;
   }
 
