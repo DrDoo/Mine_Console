@@ -49,6 +49,10 @@ public class Cell {
   }
 
   // Accessor Methods
+
+  public boolean getMineStatus() {
+    return isMine;
+  }
   public int getBorderingMines() {
     return borderingMines;
   }
