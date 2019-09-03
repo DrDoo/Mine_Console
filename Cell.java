@@ -23,6 +23,7 @@ public class Cell {
     isMine = true;
   }
 
+  // Method to flag a cell, preventing it from being opened
   public void flag() {
     if (revealed)
       System.out.println("You can not flag a revealed cell");
@@ -30,6 +31,7 @@ public class Cell {
       flagged = !flagged;
   }
 
+  // Method to reveal a cell
   public void reveal() {
     if (flagged)
       System.out.println("You can not reveal a flagged cell");
@@ -49,10 +51,10 @@ public class Cell {
   }
 
   // Accessor Methods
-
   public boolean getMineStatus() {
     return isMine;
   }
+  
   public int getBorderingMines() {
     return borderingMines;
   }
