@@ -17,12 +17,6 @@ public class Game {
   static Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) {
-
-    // Currently grid size is hardcoded
-    gridX = 16;
-    gridY= 10;
-    grid = new Cell[gridX][gridY];
-
     // Initialisation of the game
     initialise();
 
@@ -39,6 +33,14 @@ public class Game {
 
   // Initialises the game
   public static void initialise() {
+
+    // Player chooses the size of the grid
+    System.out.println("Enter the number of columns:");
+    gridX = scanner.nextInt();
+    System.out.println("Enter the number of Rows");
+    gridY = scanner.nextInt();
+    grid = new Cell[gridX][gridY];
+
     // Initialising the game. Cells are created and mines placed randomly
     for (int i = 0; i < gridY; i++) {
       for (int j = 0; j < gridX; j++) {
@@ -136,7 +138,6 @@ public class Game {
     else
       System.out.println("Invalid action");
   }
-
 
   // When opening an empty cell it opens all other cells around it, this
   // includes other empty cells
