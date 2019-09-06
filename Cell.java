@@ -12,12 +12,14 @@ public class Cell {
   public static final String ANSI_BLACK = "\u001B[30m";
   public static final String ANSI_BLUE = "\u001B[34m";
   public static final String ANSI_GREEN = "\u001B[32m";
-  public static final String ANSI_RED = "\u001B[31m";
+  public static final String ANSI_BRIGHT_RED = "\u001b[38;5;9m";
   public static final String ANSI_PURPLE = "\u001B[35m";
-  // Black
-  public static final String ANSI_ORANGE = "\u001b[31;1m"; // Actually Bright Red
-  public static final String ANSI_GRAY = "\\u001b[37m"; // Actually White
+  public static final String ANSI_ORANGE = "\u001b[38;5;202m";
+  public static final String ANSI_GRAY = "\u001b[38;5;245m";// Actually White
   public static final String ANSI_CYAN = "\u001B[36m";
+
+  public static final String ANSI_YELLOW = "\u001B[33m"; // For the Flag
+  public static final String ANSI_RED = "\u001B[31m"; // For the mine
 
   // Each cell is initialised as not being revealed or flagged and is not a mine
   public Cell() {
@@ -40,7 +42,7 @@ public class Cell {
         textColour = ANSI_GREEN;
         break;
       case 3:
-        textColour = ANSI_RED;
+        textColour = ANSI_BRIGHT_RED;
         break;
       case 4:
         textColour = ANSI_PURPLE;
@@ -89,9 +91,9 @@ public class Cell {
       return (textColour + borderingMines + ANSI_RESET);
     }
     if (revealed && isMine)
-      return "*";
+      return (ANSI_RED + "*" + ANSI_RESET);
     if (flagged)
-      return "F";
+      return (ANSI_YELLOW + "F" + ANSI_RESET);
     return "#";
   }
 
