@@ -32,6 +32,9 @@ public class Game {
       playerTurn();
     }
 
+    if (gameLost)
+      System.out.println("You revealed a mine and were blown up!");
+
   }
 
   // Initialises the game
@@ -125,12 +128,18 @@ public class Game {
           && !grid[chosenX][chosenY].getMineStatus())
         openEmpties(chosenX, chosenY);
       printGrid();
+      // If the player reveals a mine they lose
+      if (grid[chosenX][chosenY].getMineStatus())
+        gameLost = true;
     }
     // If they put in some other input it is ignored
     else
       System.out.println("Invalid action");
   }
 
+
+  // When opening an empty cell it opens all other cells around it, this
+  // includes other empty cells
   public static void openEmpties(int cellX, int cellY) {
 
     // Loops through all the cells untill we reach a cell a distance of 1 away
