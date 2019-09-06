@@ -145,14 +145,16 @@ public class Game {
     int chosenY;
 
     // If they choose help they are told the possible actions
-    if (playerAction.equals("help"))
-      System.out.println("Possible actions are reveal, flag and reset");
-
+    if (playerAction.equals("help")) {
+      System.out.print("Possible actions are ");
+      System.out.print("\u001b[4mr\u001b[0m" + "eveal, "); //reveal
+      System.out.println("\u001b[4mf\u001b[0m" + "lag and reset"); //flag
+    }
     else if (playerAction.equals("reset"))
       initialise();
 
     // If they choose flag they then pick the cell, which is then flagged
-    else if (playerAction.equals("flag")) {
+    else if (playerAction.equals("flag") || playerAction.equals("f")) {
       System.out.println("Choose which cell in the format x,y");
       chosenCell = scanner.next();
       chosenX = Integer.parseInt(chosenCell.substring(0, 1));
@@ -161,7 +163,7 @@ public class Game {
       printGrid();
     } // flag choice
     // If they choose reveal they then pick the cell, which is then revealed
-    else if (playerAction.equals("reveal")) {
+    else if (playerAction.equals("reveal") || playerAction.equals("r")) {
       System.out.println("Choose which cell in the format x,y");
       chosenCell = scanner.next();
       chosenX = Integer.parseInt(chosenCell.substring(0, 1));
