@@ -119,6 +119,11 @@ public class Game {
       chosenX = Integer.parseInt(chosenCell.substring(0, 1));
       chosenY = Integer.parseInt(chosenCell.substring(2));
       grid[chosenX][chosenY].reveal();
+      // If the cell has 0 bordering mines, we open all other empty cells
+      // around it
+      if (grid[chosenX][chosenY].getBorderingMines() == 0
+          && !grid[chosenX][chosenY].getMineStatus())
+        openEmpties(chosenX, chosenY);
       printGrid();
     }
     // If they put in some other input it is ignored
@@ -126,4 +131,28 @@ public class Game {
       System.out.println("Invalid action");
   }
 
+  public static void openEmpties(int cellX, int cellY) {
+
+    // Loops through all the cells untill we reach a cell a distance of 1 away
+    // from the chosen cell, if that cell is not a mine we continue
+    for (int i = 0; i < gridX; i++) {
+      for (int j = 0; j < gridY; j++) {
+        if ((cellX - i < 2) && (cellX - i > -2)
+            && (cellY - j < 2) && (cellY - j > -2)
+            && !grid[i][j].getMineStatus()) {
+          // If that cell has 0 bordering mines and it hasnt been revealed and
+          // if isnt the cell we originally chose, we call openEmpties on that
+          // cell
+          if (grid[i][j].getBorderingMines() == 0
+              && !grid[i][j].isRevealed()) {
+            if (!(cellX==i && cellY==j)) {
+              openEmpties(i, j);
+            }
+          }
+          // We then reveal the cell
+          grid[i][j].reveal();
+        }
+      }
+    }
+  }
 }
