@@ -115,13 +115,23 @@ public class Game {
   // Prints out the visual of the game
   public static void printGrid() {
 
+    // Prints out the column numbers
+    System.out.print("   ");
+    for (int colNum = 0; colNum < gridX; colNum++)
+      System.out.print(colNum + " ");
+    System.out.println();
+
+    // Prints out the rows along with their row numbers
+    int rowNum = 0;
     for (int i = 0; i < gridY; i++) {
+      System.out.print(rowNum + " ");
       for (int j = 0; j < gridX; j++) {
         System.out.print("|");
         System.out.print(grid[j][i]);
       }
       System.out.print("|");
       System.out.println();
+      rowNum++;
     }
   } // printGrid
 
