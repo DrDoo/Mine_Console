@@ -16,6 +16,14 @@ public class Game {
   static Random random = new Random();
   static Scanner scanner = new Scanner(System.in);
 
+  /*
+███    ███  █████  ██ ███    ██
+████  ████ ██   ██ ██ ████   ██
+██ ████ ██ ███████ ██ ██ ██  ██
+██  ██  ██ ██   ██ ██ ██  ██ ██
+██      ██ ██   ██ ██ ██   ████
+*/
+
   public static void main(String[] args) {
     // Initialisation of the game
     initialise();
@@ -29,7 +37,15 @@ public class Game {
     if (gameLost)
       System.out.println("You revealed a mine and were blown up!");
 
-  }
+  } // main
+
+  /*
+██ ███    ██ ██ ████████
+██ ████   ██ ██    ██
+██ ██ ██  ██ ██    ██
+██ ██  ██ ██ ██    ██
+██ ██   ████ ██    ██
+*/
 
   // Initialises the game
   public static void initialise() {
@@ -66,7 +82,15 @@ public class Game {
       }
     }
     printGrid();
-  }
+  } // initialise
+
+  /*
+██ ███████     ███    ███ ██ ███    ██ ███████
+██ ██          ████  ████ ██ ████   ██ ██
+██ ███████     ██ ████ ██ ██ ██ ██  ██ █████
+██      ██     ██  ██  ██ ██ ██  ██ ██ ██
+██ ███████     ██      ██ ██ ██   ████ ███████
+*/
 
   // This is used to see if a bordering cell contains a mine
   public static boolean isMine(int cellX, int cellY, int otherX, int otherY) {
@@ -78,7 +102,15 @@ public class Game {
         && grid[otherX][otherY].getMineStatus())
       return true;
     return false;
-  } // isNeighbour
+  } // isMine
+
+  /*
+  ██████  ██████  ██ ███    ██ ████████      ██████  ██████  ██ ██████
+  ██   ██ ██   ██ ██ ████   ██    ██        ██       ██   ██ ██ ██   ██
+  ██████  ██████  ██ ██ ██  ██    ██        ██   ███ ██████  ██ ██   ██
+  ██      ██   ██ ██ ██  ██ ██    ██        ██    ██ ██   ██ ██ ██   ██
+  ██      ██   ██ ██ ██   ████    ██         ██████  ██   ██ ██ ██████
+  */
 
   // Prints out the visual of the game
   public static void printGrid() {
@@ -91,7 +123,15 @@ public class Game {
       System.out.print("|");
       System.out.println();
     }
-  }
+  } // printGrid
+
+  /*
+  ████████ ██    ██ ██████  ███    ██
+     ██    ██    ██ ██   ██ ████   ██
+     ██    ██    ██ ██████  ██ ██  ██
+     ██    ██    ██ ██   ██ ██  ██ ██
+     ██     ██████  ██   ██ ██   ████
+  */
 
   // Takes the players input and does the corresponding action
   public static void playerTurn() {
@@ -119,7 +159,7 @@ public class Game {
       chosenY = Integer.parseInt(chosenCell.substring(2));
       grid[chosenX][chosenY].flag();
       printGrid();
-    }
+    } // flag choice
     // If they choose reveal they then pick the cell, which is then revealed
     else if (playerAction.equals("reveal")) {
       System.out.println("Choose which cell in the format x,y");
@@ -136,11 +176,19 @@ public class Game {
       // If the player reveals a mine they lose
       if (grid[chosenX][chosenY].getMineStatus())
         gameLost = true;
-    }
+    } // reveal choice
     // If they put in some other input it is ignored
     else
       System.out.println("Invalid action");
-  }
+  } // playerTurn
+
+  /*
+  ███████ ███    ███ ██████  ████████ ██ ███████ ███████
+  ██      ████  ████ ██   ██    ██    ██ ██      ██
+  █████   ██ ████ ██ ██████     ██    ██ █████   ███████
+  ██      ██  ██  ██ ██         ██    ██ ██           ██
+  ███████ ██      ██ ██         ██    ██ ███████ ███████
+  */
 
   // When opening an empty cell it opens all other cells around it, this
   // includes other empty cells
@@ -167,5 +215,5 @@ public class Game {
         }
       }
     }
-  }
-}
+  } // openEmpties
+} // Game
