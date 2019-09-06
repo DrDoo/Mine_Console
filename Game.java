@@ -106,7 +106,10 @@ public class Game {
 
     // If they choose help they are told the possible actions
     if (playerAction.equals("help"))
-      System.out.println("Possible actions are reveal and flag");
+      System.out.println("Possible actions are reveal, flag and reset");
+
+    else if (playerAction.equals("reset"))
+      initialise();
 
     // If they choose flag they then pick the cell, which is then flagged
     else if (playerAction.equals("flag")) {
