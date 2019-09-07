@@ -69,18 +69,12 @@ public class Cell {
 
   // Method to flag a cell, preventing it from being opened
   public void flag() {
-    if (revealed)
-      System.out.println("You can not flag a revealed cell");
-    else
-      flagged = !flagged;
+    flagged = !flagged;
   }
 
   // Method to reveal a cell
   public void reveal() {
-    if (flagged)
-      System.out.println("You can not reveal a flagged cell");
-    else
-      revealed = true;
+    revealed = true;
   }
 
   // The toString method is used to display the cell on the console
