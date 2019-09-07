@@ -11,6 +11,7 @@ public class Game {
   // Booleans used to determine aspects of the game
   static boolean gameWon = false;
   static boolean gameLost = false;
+  static boolean gameOver = false;
   static int noOfMines;
   static String errorMessage = "";
   static String[] alphabet = {"A","B","C","D","E","F","G","H","I","J","K","L"
@@ -35,7 +36,7 @@ public class Game {
 
     // Whist the player has neither won or lost the game they can continue to
     // make movses
-    while (!gameWon && !gameLost) {
+    while (!gameWon && !gameLost && !gameOver) {
       playerTurn();
     }
 
@@ -170,7 +171,7 @@ public class Game {
       System.out.println();
       System.out.print("Possible actions are ");
       System.out.print("\u001b[4mr\u001b[0m" + "eveal, "); //reveal
-      System.out.println("\u001b[4mf\u001b[0m" + "lag and reset"); //flag
+      System.out.println("\u001b[4mf\u001b[0m" + "lag, reset and exit"); //flag
     }
     else if (playerAction.equals("reset"))
       initialise();
@@ -216,6 +217,9 @@ public class Game {
           && grid[chosenX][chosenY].isRevealed())
         gameLost = true;
     } // reveal choice
+
+    else if (playerAction.equals("exit"))
+      gameOver = true;
 
     // If they put in some other input it is ignored
     else
