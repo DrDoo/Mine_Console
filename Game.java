@@ -216,8 +216,10 @@ public class Game {
     else
       System.out.println("Invalid action");
 
+    // If there is an error message it is printed out, it is coloured red using
+    // ANSI escape codes
       if (errorMessage != "")
-        System.out.println(errorMessage);
+        System.out.println("\u001B[31m" + errorMessage + "\u001B[0m");
       errorMessage = "";
   } // playerTurn
 
