@@ -13,6 +13,9 @@ public class Game {
   static boolean gameLost = false;
   static int noOfMines;
   static String errorMessage = "";
+  static String[] alphabet = {"A","B","C","D","E","F","G","H","I","J","K","L"
+                              ,"M","N","O","P","Q","R","S","T","U","V","W","X"
+                              ,"Y","Z"};
 
   // Tools to help with various parts of the game
   static Random random = new Random();
@@ -124,13 +127,13 @@ public class Game {
     // Prints out the column numbers
     System.out.print("   ");
     for (int colNum = 0; colNum < gridX; colNum++)
-      System.out.print(colNum + " ");
+      System.out.print(alphabet[colNum] + " ");
     System.out.println();
 
     // Prints out the rows along with their row numbers
     int rowNum = 0;
     for (int i = 0; i < gridY; i++) {
-      System.out.print(rowNum + " ");
+      System.out.print(alphabet[rowNum] + " ");
       for (int j = 0; j < gridX; j++) {
         System.out.print("|");
         System.out.print(grid[j][i]);
@@ -158,6 +161,7 @@ public class Game {
 
     // Variables to help with choosing the cell the action is happening to
     String chosenCell;
+    String[] chosenCoords;
     int chosenX;
     int chosenY;
 
@@ -192,8 +196,9 @@ public class Game {
     else if (playerAction.equals("reveal") || playerAction.equals("r")) {
       System.out.println("Choose which cell in the format x,y");
       chosenCell = scanner.next();
-      chosenX = Integer.parseInt(chosenCell.substring(0, 1));
-      chosenY = Integer.parseInt(chosenCell.substring(2));
+      chosenCoords = chosenCell.split(",");
+      chosenX = Integer.parseInt(chosenCoords[0]);
+      chosenY = Integer.parseInt(chosenCoords[1]);
       // If the cell is flagged we prevent the player from revealing it
       if (grid[chosenX][chosenY].isFlagged())
         errorMessage = "You can not reveal a flagged cell";
