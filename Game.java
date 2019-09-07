@@ -8,9 +8,11 @@ public class Game {
   static int gridX;
   static int gridY;
 
-  // Booleans used to determine the win/loss state of the game
+  // Booleans used to determine aspects of the game
   static boolean gameWon = false;
   static boolean gameLost = false;
+  static int noOfMines;
+  static String errorMessage = "";
 
   // Tools to help with various parts of the game
   static Random random = new Random();
@@ -57,12 +59,16 @@ public class Game {
     gridY = scanner.nextInt();
     grid = new Cell[gridX][gridY];
 
+    noOfMines = 0;
+
     // Initialising the game. Cells are created and mines placed randomly
     for (int i = 0; i < gridY; i++) {
       for (int j = 0; j < gridX; j++) {
         grid[j][i] = new Cell();
-        if (random.nextInt(100) < 20)
+        if (random.nextInt(100) < 10) {
           grid[j][i].setMine();
+          noOfMines++;
+        }
       }
     }
 
@@ -145,6 +151,7 @@ public class Game {
 
   // Takes the players input and does the corresponding action
   public static void playerTurn() {
+    System.out.println("There are " + noOfMines + " mines remaining");
     System.out.println("Choose Action, type help for a list of commands");
     // Stores the players input which is then compared to the possible inputs
     String playerAction = scanner.next();
@@ -156,6 +163,7 @@ public class Game {
 
     // If they choose help they are told the possible actions
     if (playerAction.equals("help")) {
+      System.out.println();
       System.out.print("Possible actions are ");
       System.out.print("\u001b[4mr\u001b[0m" + "eveal, "); //reveal
       System.out.println("\u001b[4mf\u001b[0m" + "lag and reset"); //flag
@@ -169,29 +177,48 @@ public class Game {
       chosenCell = scanner.next();
       chosenX = Integer.parseInt(chosenCell.substring(0, 1));
       chosenY = Integer.parseInt(chosenCell.substring(2));
-      grid[chosenX][chosenY].flag();
+      // If the cell is revealed we prevent the player from flagging it
+      if (grid[chosenX][chosenY].isRevealed())
+        errorMessage = "You can not flag a revealed cell";
+      else {
+        grid[chosenX][chosenY].flag();
+        noOfMines--;
+      }
       printGrid();
     } // flag choice
+
+
     // If they choose reveal they then pick the cell, which is then revealed
     else if (playerAction.equals("reveal") || playerAction.equals("r")) {
       System.out.println("Choose which cell in the format x,y");
       chosenCell = scanner.next();
       chosenX = Integer.parseInt(chosenCell.substring(0, 1));
       chosenY = Integer.parseInt(chosenCell.substring(2));
-      grid[chosenX][chosenY].reveal();
-      // If the cell has 0 bordering mines, we open all other empty cells
-      // around it
-      if (grid[chosenX][chosenY].getBorderingMines() == 0
-          && !grid[chosenX][chosenY].getMineStatus())
-        openEmpties(chosenX, chosenY);
+      // If the cell is flagged we prevent the player from revealing it
+      if (grid[chosenX][chosenY].isFlagged())
+        errorMessage = "You can not reveal a flagged cell";
+      else {
+        grid[chosenX][chosenY].reveal();
+        // If the cell has 0 bordering mines, we open all other empty cells
+        // around it
+        if (grid[chosenX][chosenY].getBorderingMines() == 0
+            && !grid[chosenX][chosenY].getMineStatus())
+          openEmpties(chosenX, chosenY);
+      }
       printGrid();
       // If the player reveals a mine they lose
-      if (grid[chosenX][chosenY].getMineStatus())
+      if (grid[chosenX][chosenY].getMineStatus()
+          && grid[chosenX][chosenY].isRevealed())
         gameLost = true;
     } // reveal choice
+
     // If they put in some other input it is ignored
     else
       System.out.println("Invalid action");
+
+      if (errorMessage != "")
+        System.out.println(errorMessage);
+      errorMessage = "";
   } // playerTurn
 
   /*
