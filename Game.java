@@ -15,9 +15,9 @@ public class Game {
   static int noOfMines;
   static String errorMessage = "";
   static String endMessage = "";
-  static String[] alphabet = {"A","B","C","D","E","F","G","H","I","J","K","L"
-                              ,"M","N","O","P","Q","R","S","T","U","V","W","X"
-                              ,"Y","Z"};
+  static String[] alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l"
+                              ,"m","n","o","p","q","r","s","t","u","v","w","x"
+                              ,"y","z"};
 
   // Tools to help with various parts of the game
   static Random random = new Random();
@@ -41,6 +41,8 @@ public class Game {
       playerTurn();
     }
 
+    // After the game is over we reveal all cells that have yet to be revealed,
+    // and if the player has incorrectly flagged any cells we mark those too
     for (int i = 0; i < gridX; i++) {
       for (int j = 0; j < gridY; j++) {
         if (!grid[j][i].isRevealed() && !grid[j][i].isFlagged())
@@ -49,6 +51,7 @@ public class Game {
           grid[j][i].markIncorrect();
       }
     }
+    // The final state of the grid is displayed along with the ending message
     printGrid();
     System.out.println(endMessage);
   } // main
@@ -133,16 +136,16 @@ public class Game {
   // Prints out the visual of the game
   public static void printGrid() {
 
-    // Prints out the column numbers
+    // Prints out the column letters in uppercase
     System.out.print("   ");
     for (int colNum = 0; colNum < gridX; colNum++)
-      System.out.print(alphabet[colNum] + " ");
+      System.out.print(alphabet[colNum].toUpperCase() + " ");
     System.out.println();
 
-    // Prints out the rows along with their row numbers
+    // Prints out the rows along with their row letters in uppercase
     int rowNum = 0;
     for (int i = 0; i < gridY; i++) {
-      System.out.print(alphabet[rowNum] + " ");
+      System.out.print(alphabet[rowNum].toUpperCase() + " ");
       for (int j = 0; j < gridX; j++) {
         System.out.print("|");
         System.out.print(grid[j][i]);
@@ -171,8 +174,8 @@ public class Game {
     // Variables to help with choosing the cell the action is happening to
     String chosenCell;
     String[] chosenCoords;
-    int chosenX;
-    int chosenY;
+    int chosenX = 0;
+    int chosenY = 0;
 
     // If they choose help they are told the possible actions
     if (playerAction.equals("help")) {
@@ -189,8 +192,12 @@ public class Game {
       System.out.println("Choose which cell in the format x,y");
       chosenCell = scanner.next();
       chosenCoords = chosenCell.split(",");
-      chosenX = Integer.parseInt(chosenCoords[0]);
-      chosenY = Integer.parseInt(chosenCoords[1]);
+      // We loop through the alphabet array to find the corresponding number to
+      // the letter input
+      for (int i = 0; i < alphabet.length; i++) {
+        if (chosenCoords[0].equals(alphabet[i])) chosenX = i;
+        if (chosenCoords[1].equals(alphabet[i])) chosenY = i;
+      }
       // If the cell is revealed we prevent the player from flagging it
       if (grid[chosenX][chosenY].isRevealed())
         errorMessage = "You can not flag a revealed cell";
@@ -210,8 +217,12 @@ public class Game {
       System.out.println("Choose which cell in the format x,y");
       chosenCell = scanner.next();
       chosenCoords = chosenCell.split(",");
-      chosenX = Integer.parseInt(chosenCoords[0]);
-      chosenY = Integer.parseInt(chosenCoords[1]);
+      // We loop through the alphabet array to find the corresponding number to
+      // the letter input
+      for (int i = 0; i < alphabet.length; i++) {
+        if (chosenCoords[0].equals(alphabet[i])) chosenX = i;
+        if (chosenCoords[1].equals(alphabet[i])) chosenY = i;
+      }
       // If the cell is flagged we prevent the player from revealing it
       if (grid[chosenX][chosenY].isFlagged())
         errorMessage = "You can not reveal a flagged cell";
@@ -292,11 +303,17 @@ public class Game {
  ██   ██ ██   ██ ███████      ███ ███   ██████  ██   ████
  */
 
+ // Once all the flags have been placed we loop through all the cells to make
+ // the flags have been put in the correct spots, if they have the player wins
+ // if not they lose
   public static void hasPlayerWon() {
 
+    // Initially we assume the player has won
     gameWon = true;
     endMessage = "Congratulations! You found all the Mines!";
 
+    // Then we loop to make sure none of the flags have been placed incorrectly
+    // If they have they lose
     for (int i = 0; i < gridX; i++) {
       for (int j = 0; j < gridY; j++) {
         if (grid[i][j].getMineStatus() && !grid[i][j].isFlagged()) {
