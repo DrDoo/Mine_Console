@@ -45,6 +45,8 @@ public class Game {
       for (int j = 0; j < gridY; j++) {
         if (!grid[j][i].isRevealed() && !grid[j][i].isFlagged())
           grid[j][i].reveal();
+        if (grid[j][i].isFlagged() && !grid[j][i].getMineStatus())
+          grid[j][i].markIncorrect();
       }
     }
     printGrid();
