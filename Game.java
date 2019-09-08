@@ -14,6 +14,7 @@ public class Game {
   static boolean gameOver = false;
   static int noOfMines;
   static String errorMessage = "";
+  static String endMessage = "";
   static String[] alphabet = {"A","B","C","D","E","F","G","H","I","J","K","L"
                               ,"M","N","O","P","Q","R","S","T","U","V","W","X"
                               ,"Y","Z"};
@@ -40,9 +41,14 @@ public class Game {
       playerTurn();
     }
 
-    if (gameLost)
-      System.out.println("You revealed a mine and were blown up!");
-
+    for (int i = 0; i < gridX; i++) {
+      for (int j = 0; j < gridY; j++) {
+        if (!grid[j][i].isRevealed() && !grid[j][i].isFlagged())
+          grid[j][i].reveal();
+      }
+    }
+    printGrid();
+    System.out.println(endMessage);
   } // main
 
   /*
@@ -186,8 +192,11 @@ public class Game {
       if (grid[chosenX][chosenY].isRevealed())
         errorMessage = "You can not flag a revealed cell";
       else {
+        if (grid[chosenX][chosenY].isFlagged())
+          noOfMines++;
+        else
+          noOfMines--;
         grid[chosenX][chosenY].flag();
-        noOfMines--;
       }
       printGrid();
     } // flag choice
@@ -214,8 +223,10 @@ public class Game {
       printGrid();
       // If the player reveals a mine they lose
       if (grid[chosenX][chosenY].getMineStatus()
-          && grid[chosenX][chosenY].isRevealed())
+          && grid[chosenX][chosenY].isRevealed()) {
         gameLost = true;
+        System.out.println("You revealed a mine and were blown up!");
+      }
     } // reveal choice
 
     else if (playerAction.equals("exit"))
@@ -230,6 +241,9 @@ public class Game {
       if (errorMessage != "")
         System.out.println("\u001B[31m" + errorMessage + "\u001B[0m");
       errorMessage = "";
+
+    if (noOfMines == 0)
+      hasPlayerWon();
   } // playerTurn
 
   /*
@@ -250,7 +264,7 @@ public class Game {
       for (int j = 0; j < gridY; j++) {
         if ((cellX - i < 2) && (cellX - i > -2)
             && (cellY - j < 2) && (cellY - j > -2)
-            && !grid[i][j].getMineStatus()) {
+            && !grid[j][i].getMineStatus()) {
           // If that cell has 0 bordering mines and it hasnt been revealed and
           // if isnt the cell we originally chose, we call openEmpties on that
           // cell
@@ -266,4 +280,19 @@ public class Game {
       }
     }
   } // openEmpties
+
+  public static void hasPlayerWon() {
+    for (int i = 0; i < gridX; i++) {
+      for (int j = 0; j < gridY; j++) {
+        if (grid[i][j].getMineStatus() && !grid[i][j].isFlagged()) {
+          gameLost = true;
+          endMessage = "Oh no! You must have flagged an incorrect cell";
+        }
+        else {
+          gameWon = true;
+          endMessage = "Congratulations! You found all the Mines!";
+        }
+      }
+    }
+  }
 } // Game
