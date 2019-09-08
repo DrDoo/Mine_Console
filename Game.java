@@ -13,6 +13,7 @@ public class Game {
   static boolean gameLost = false;
   static boolean gameOver = false;
   static int noOfMines;
+  static int minePercentage;
   static String errorMessage = "";
   static String endMessage = "";
   static String[] alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l"
@@ -68,19 +69,21 @@ public class Game {
   public static void initialise() {
 
     // Player chooses the size of the grid
-    System.out.println("Enter the number of columns:");
+    System.out.println("Enter the number of columns (less than 26):");
     gridX = scanner.nextInt();
-    System.out.println("Enter the number of Rows");
+    System.out.println("Enter the number of Rows (less than 26):");
     gridY = scanner.nextInt();
     grid = new Cell[gridX][gridY];
 
+    System.out.println("Enter the percent of cells you wish to be mines:");
+    minePercentage = scanner.nextInt();
     noOfMines = 0;
 
     // Initialising the game. Cells are created and mines placed randomly
     for (int i = 0; i < gridY; i++) {
       for (int j = 0; j < gridX; j++) {
         grid[j][i] = new Cell();
-        if (random.nextInt(100) < 10) {
+        if (random.nextInt(100) < minePercentage) {
           grid[j][i].setMine();
           noOfMines++;
         }
