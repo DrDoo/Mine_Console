@@ -6,6 +6,7 @@ public class Cell {
   private String textColour;
   private boolean revealed;
   private boolean flagged;
+  private boolean incorrectFlag;
 
   // These are the colours used to change the text colour in the terminal
   public static final String ANSI_RESET = "\u001B[0m";
@@ -26,6 +27,7 @@ public class Cell {
     isMine = false;
     flagged = false;
     revealed = false;
+    incorrectFlag = false;
   }
 
   // Method to set the number of bordering mines the cell has
@@ -77,6 +79,10 @@ public class Cell {
     revealed = true;
   }
 
+  public void markIncorrect() {
+    incorrectFlag = true;
+  }
+
   // The toString method is used to display the cell on the console
   public String toString() {
     if (revealed && !isMine){
@@ -86,8 +92,11 @@ public class Cell {
     }
     if (revealed && isMine)
       return (ANSI_RED + "*" + ANSI_RESET);
-    if (flagged)
+    if (flagged) {
+      if (incorrectFlag)
+        return (ANSI_RED + "F" + ANSI_RESET);
       return (ANSI_YELLOW + "F" + ANSI_RESET);
+    }
     return "#";
   }
 
@@ -106,6 +115,10 @@ public class Cell {
 
   public boolean isFlagged() {
     return flagged;
+  }
+
+  public boolean isIncorrect() {
+    return incorrectFlag;
   }
 
 }
