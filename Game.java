@@ -188,8 +188,9 @@ public class Game {
     else if (playerAction.equals("flag") || playerAction.equals("f")) {
       System.out.println("Choose which cell in the format x,y");
       chosenCell = scanner.next();
-      chosenX = Integer.parseInt(chosenCell.substring(0, 1));
-      chosenY = Integer.parseInt(chosenCell.substring(2));
+      chosenCoords = chosenCell.split(",");
+      chosenX = Integer.parseInt(chosenCoords[0]);
+      chosenY = Integer.parseInt(chosenCoords[1]);
       // If the cell is revealed we prevent the player from flagging it
       if (grid[chosenX][chosenY].isRevealed())
         errorMessage = "You can not flag a revealed cell";
